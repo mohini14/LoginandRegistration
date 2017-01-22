@@ -15,6 +15,7 @@
 		15AE3FB61E31D6DF00D62A3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15AE3FB41E31D6DF00D62A3A /* Main.storyboard */; };
 		15AE3FB81E31D6DF00D62A3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15AE3FB71E31D6DF00D62A3A /* Assets.xcassets */; };
 		15AE3FBB1E31D6DF00D62A3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15AE3FB91E31D6DF00D62A3A /* LaunchScreen.storyboard */; };
+		2DC1119B09706506C8A06661 /* ViewControllerUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC111F74F90E0E318619E7E /* ViewControllerUtils.m */; };
 		2DC115E07A4AF7C07DA4705A /* UserServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC11DCEAE64672556804A74 /* UserServices.m */; };
 		2DC1183404C4C3B2B9C7639A /* HTTPServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC11AE95437324373D74A5A /* HTTPServices.m */; };
 /* End PBXBuildFile section */
@@ -34,7 +35,9 @@
 		15AE3FB71E31D6DF00D62A3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15AE3FBA1E31D6DF00D62A3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15AE3FBC1E31D6DF00D62A3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2DC111F74F90E0E318619E7E /* ViewControllerUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerUtils.m; sourceTree = "<group>"; };
 		2DC112FFD6EA66914FD7E218 /* UserServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserServices.h; sourceTree = "<group>"; };
+		2DC1151D1B70CD41A80ADDB1 /* ViewControllerUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerUtils.h; sourceTree = "<group>"; };
 		2DC118C02295A1AE00BBE7AA /* HTTPServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPServices.h; sourceTree = "<group>"; };
 		2DC11AE95437324373D74A5A /* HTTPServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPServices.m; sourceTree = "<group>"; };
 		2DC11DCEAE64672556804A74 /* UserServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserServices.m; sourceTree = "<group>"; };
@@ -67,6 +70,7 @@
 				15AE3FAA1E31D6DF00D62A3A /* LoginandRegistration */,
 				15AE3FA91E31D6DF00D62A3A /* Products */,
 				2DC11A7487C77C3D1D3023EA /* Services */,
+				2DC116FA9E83B24F964A11A7 /* Utils */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,6 +106,15 @@
 				15AE3FAC1E31D6DF00D62A3A /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2DC116FA9E83B24F964A11A7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				2DC111F74F90E0E318619E7E /* ViewControllerUtils.m */,
+				2DC1151D1B70CD41A80ADDB1 /* ViewControllerUtils.h */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		2DC11A7487C77C3D1D3023EA /* Services */ = {
@@ -193,6 +206,7 @@
 				1562CAEA1E33D8DE0049D9BF /* RegViewController.m in Sources */,
 				2DC115E07A4AF7C07DA4705A /* UserServices.m in Sources */,
 				2DC1183404C4C3B2B9C7639A /* HTTPServices.m in Sources */,
+				2DC1119B09706506C8A06661 /* ViewControllerUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

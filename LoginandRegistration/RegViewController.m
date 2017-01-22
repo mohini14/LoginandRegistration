@@ -7,15 +7,24 @@
 //
 
 #import "RegViewController.h"
+#import "UserServices.h"
+#import "ViewControllerUtils.h"
 
 @interface RegViewController ()
 
 @end
 
-@implementation RegViewController
+@implementation RegViewController{
+    UserServices *_userServices;
+    UIActivityIndicatorView *_indicator;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _userServices = [UserServices new];
+    _indicator = [ViewControllerUtils getLoadingindicator];
+    _indicator.center = self.view.center;
+    [self.view addSubview:_indicator];
 
 }
 
@@ -29,30 +38,27 @@
     NSString * userName=self.regUserNameTextField.text;
     NSString *password=self.regPasswordTextField.text;
     NSString *confirmPassword=self.regConfirmPasswordTextField.text;
-    //checking if fields are empty
-    if([userName isEqualToString:@""] || [password isEqualToString:@""] || [confirmPassword isEqualToString :@""])
-        
-        [RegViewController showAlertPopup : TITLE_ERROR_ALERT andMessage :NON_EMPTY_ERROR_MESSAGE forViewController :self];
-    //checking if password field and confirm password field mismatch
-    else if(![password isEqualToString:confirmPassword] )
-        [RegViewController showAlertPopup:TITLE_ERROR_ALERT andMessage:PASSWORD_CONFIRMPASSWORD_NOTSAME_ERROR_MESSAGE forViewController :self];
-    
-    //if success
-    else
-        [RegViewController showAlertPopup:SUCCES_ALERT_TITLE andMessage:SUCCESS_MSG forViewController :self];
+
+    // to start spinning
+    [self.view setUserInteractionEnabled:NO];
+    [_indicator startAnimating];
+
+    if([password isEqualToString:confirmPassword]){
+        [_userServices registerByEmail:userName andPassword:password andCallBackMethod:^(BOOL success, NSDictionary *data){
+
+            if(success == TRUE){
+                NSString *message = [NSString stringWithFormat:@"Registration Successfull with token %@", data[@"token"] ];
+                [ViewControllerUtils showAlertPopup:@"Success" andMessage:message forViewController:self];
+            }else{
+                NSString *message = [NSString stringWithFormat:@"Registration Failed : Error %@", data[@"error"] ];
+                [ViewControllerUtils showAlertPopup:@"Failed" andMessage:message forViewController:self];
+            }
+
+        }];
+    }
+
+
     
 }
 
-+ (void) showAlertPopup:(NSString *) title andMessage: (NSString *) message forViewController :(id) vc{
-    
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
-                                                                   message:message
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
-    
-    [alert addAction:defaultAction];
-    [vc presentViewController:alert animated:YES completion:nil];
-}
 @end

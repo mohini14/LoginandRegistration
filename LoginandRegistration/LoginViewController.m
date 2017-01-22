@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "RegViewController.h"
 #import "UserServices.h"
+#import "ViewControllerUtils.h"
 
 @interface LoginViewController ()
 
@@ -16,12 +17,16 @@
 
 @implementation LoginViewController{
     UserServices *_userServices ;
+    UIActivityIndicatorView * _indicator;
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     _userServices = [UserServices new];
+    _indicator = [ViewControllerUtils getLoadingindicator];
+    _indicator.center = self.view.center;
+    [self.view addSubview:_indicator];
 }
 
 
@@ -35,18 +40,20 @@
     
     NSString *username=self.loginUserNameTextField.text;
     NSString *password=self.loginPasswordTextField.text;
+
+
     [_userServices loginByEmail:username andPassowrd:password andCallBackMethod:^(BOOL success, NSDictionary *data) {
 
         if(success == TRUE){
             NSString *message = [NSString stringWithFormat:@"Login SUccessfull with token %@", data[@"token"] ];
-            [RegViewController showAlertPopup:@"Success" andMessage:message forViewController:self];
+            [ViewControllerUtils showAlertPopup:@"Success" andMessage:message forViewController:self];
         }else{
             NSString *message = [NSString stringWithFormat:@"Login Failed : Error %@", data[@"error"] ];
-            [RegViewController showAlertPopup:@"Failed" andMessage:message forViewController:self];
+            [ViewControllerUtils showAlertPopup:@"Failed" andMessage:message forViewController:self];
 
         }
+
     }];
-    NSLog(@"Outside userservices method call");
 }
 
 
