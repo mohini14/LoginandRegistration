@@ -31,14 +31,35 @@
     
     NSString *username=self.loginUserNameTextField.text;
     NSString *password=self.loginPasswordTextField.text;
-    if([username isEqualToString:@""] ||   [password isEqualToString:@""])
-        [RegViewController showAlertPopup:TITLE_ERROR_ALERT andMessage:NON_EMPTY_ERROR_MESSAGE forViewController:self];
-    else if(![username isEqualToString:password])
-        [RegViewController showAlertPopup: TITLE_ERROR_ALERT andMessage:PASSWORD_CONFIRMPASSWORD_NOTSAME_ERROR_MESSAGE forViewController:self];
-    else
-        [RegViewController showAlertPopup:SUCCES_ALERT_TITLE andMessage:SUCCESS_MSG forViewController:self];
-    
+    [self loginByUsername:username andPassword:password];
     
 }
+- (void) loginByUsername: (NSString *) username andPassword: (NSString *)password{
+    
+    NSString *url= @"https://www.reqres.in/api/users/200";
+    NSLog(@"LOGIN URL=%@",url);
+    
+    NSURLSessionConfiguration *defaultConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:defaultConfiguration ];
+    NSURLSessionDataTask *loginTask = [session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        if (error != nil){
+            [RegViewController showAlertPopup:@"Alert" andMessage:@"Unable to Login" forViewController:self];
+        }
+        else if( [(NSHTTPURLResponse *) response statusCode] !=200){
+            [RegViewController showAlertPopup:@"Alert" andMessage:@"Password credentials not matched" forViewController:self];
+        }else{
+            NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            NSString *firstName = jsonObject[@"data"][@"first_name"];
+            NSString *lastName = jsonObject[@"data"][@"last_name"];
+            NSString *message = [NSString stringWithFormat:@"Welcome %@ %@", firstName, lastName];
+            [RegViewController showAlertPopup:@"SUCCESS" andMessage:message forViewController:self];
+        }
+    }];
+    
+    [loginTask resume];
+    
+}
+
 
 @end
