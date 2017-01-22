@@ -8,16 +8,20 @@
 
 #import "LoginViewController.h"
 #import "RegViewController.h"
+#import "UserServices.h"
 
 @interface LoginViewController ()
 
 @end
 
-@implementation LoginViewController
+@implementation LoginViewController{
+    UserServices *_userServices ;
+}
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    _userServices = [UserServices new];
 }
 
 
@@ -31,35 +35,23 @@
     
     NSString *username=self.loginUserNameTextField.text;
     NSString *password=self.loginPasswordTextField.text;
-    [self loginByUsername:username andPassword:password];
-    
-}
-- (void) loginByUsername: (NSString *) username andPassword: (NSString *)password{
-    
-    NSString *url= @"https://www.reqres.in/api/users/200";
-    NSLog(@"LOGIN URL=%@",url);
-    
-    NSURLSessionConfiguration *defaultConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:defaultConfiguration ];
-    NSURLSessionDataTask *loginTask = [session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
-        if (error != nil){
-            [RegViewController showAlertPopup:@"Alert" andMessage:@"Unable to Login" forViewController:self];
-        }
-        else if( [(NSHTTPURLResponse *) response statusCode] !=200){
-            [RegViewController showAlertPopup:@"Alert" andMessage:@"Password credentials not matched" forViewController:self];
+    [_userServices loginByEmail:username andPassowrd:password andCallBackMethod:^(BOOL success, NSDictionary *data) {
+
+        if(success == TRUE){
+            NSString *message = [NSString stringWithFormat:@"Login SUccessfull with token %@", data[@"token"] ];
+            [RegViewController showAlertPopup:@"Success" andMessage:message forViewController:self];
         }else{
-            NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-            NSString *firstName = jsonObject[@"data"][@"first_name"];
-            NSString *lastName = jsonObject[@"data"][@"last_name"];
-            NSString *message = [NSString stringWithFormat:@"Welcome %@ %@", firstName, lastName];
-            [RegViewController showAlertPopup:@"SUCCESS" andMessage:message forViewController:self];
+            NSString *message = [NSString stringWithFormat:@"Login Failed : Error %@", data[@"error"] ];
+            [RegViewController showAlertPopup:@"Failed" andMessage:message forViewController:self];
+
         }
     }];
-    
-    [loginTask resume];
-    
+    NSLog(@"Outside userservices method call");
 }
 
 
 @end
+
+
+
+
