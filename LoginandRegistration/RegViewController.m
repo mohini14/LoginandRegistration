@@ -16,16 +16,11 @@
 
 @implementation RegViewController{
     UserServices *_userServices;
-    UIActivityIndicatorView *_indicator;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     _userServices = [UserServices new];
-    _indicator = [ViewControllerUtils getLoadingindicator];
-    _indicator.center = self.view.center;
-    [self.view addSubview:_indicator];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,10 +33,6 @@
     NSString * userName=self.regUserNameTextField.text;
     NSString *password=self.regPasswordTextField.text;
     NSString *confirmPassword=self.regConfirmPasswordTextField.text;
-
-    // to start spinning
-    [self.view setUserInteractionEnabled:NO];
-    [_indicator startAnimating];
 
     if([password isEqualToString:confirmPassword]){
         [_userServices registerByEmail:userName andPassword:password andCallBackMethod:^(BOOL success, NSDictionary *data){

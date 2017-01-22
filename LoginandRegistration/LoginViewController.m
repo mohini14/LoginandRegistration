@@ -17,16 +17,12 @@
 
 @implementation LoginViewController{
     UserServices *_userServices ;
-    UIActivityIndicatorView * _indicator;
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     _userServices = [UserServices new];
-    _indicator = [ViewControllerUtils getLoadingindicator];
-    _indicator.center = self.view.center;
-    [self.view addSubview:_indicator];
+    // Do any additional setup after loading the view, typically from a nib.
 }
 
 
