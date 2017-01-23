@@ -33,11 +33,13 @@
     [urlRequest setValue:@"application/json;charset=UTF-8" forHTTPHeaderField:@"content-type"];//charset: standart format of bit i.e 8 bit is 1 byte
 
     NSURLSessionDataTask *dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler: ^(NSData *data, NSURLResponse *response, NSError *error){
-       //use only when u need UIELemets
+       
         completionHandlerCallBack(data, response, error);
+
 
            
     }];
+
 
     [dataTask resume];
 

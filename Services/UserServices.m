@@ -11,7 +11,7 @@
 
 }
 - (void)loginByEmail:(NSString *)email andPassowrd:(NSString *)password andCallBackMethod:(void (^)(BOOL success, NSDictionary *data))callBackFromVC {
-
+    
     NSMutableDictionary *dict = [NSMutableDictionary new];
     dict[@"email"] = email;
     dict[@"password"] = password;
@@ -21,20 +21,35 @@
 
     [self POSTWithURL:urlString andData:dict completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
         NSLog(@"data = %@, response=%@ error=%@", data.description, response.description, error.description );
-        dispatch_async(dispatch_get_main_queue(), ^{
-                   });
-
+        
+        
+            BOOL _firstParameter;
+        NSDictionary *_second_parameter;
+        
         if(error !=nil){
-            callBackFromVC(false,  @{@"error": SERVER_ERROR});
-        }else {
+            
+           
+            _firstParameter=false;
+            _second_parameter=@{@"error":SERVER_ERROR};
+            
+            }else {
+            
             NSDictionary *jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
 
             if( [(NSHTTPURLResponse *)response statusCode]==200){         // http code for error
-                callBackFromVC(true, jsonObject );
+                _firstParameter=true;
+                _second_parameter=jsonObject;
+                
             }else{
-                callBackFromVC(false, jsonObject);
+                _firstParameter=false;
+                _second_parameter=jsonObject;
+                
             }
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            callBackFromVC(_firstParameter, _second_parameter);
+            
+});
     }];
 }
 
@@ -48,6 +63,8 @@
     NSLog(@"regiter by using API=%@ and data=%@", urlString, dict.description);
     [self POSTWithURL:urlString andData:dict completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
         NSLog(@"data = %@, response=%@ error=%@", data.description, response.description, error.description );
+        dispatch_async(dispatch_get_main_queue(), ^{
+
         if(error != nil){
             callBackFromVC(false, @{@"error":SERVER_ERROR});
         }else{
@@ -58,6 +75,7 @@
                 callBackFromVC(false, jsonObject);
             }
         }
+            });
     }];
 
 }
