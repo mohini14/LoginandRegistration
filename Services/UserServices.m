@@ -21,6 +21,9 @@
 
     [self POSTWithURL:urlString andData:dict completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
         NSLog(@"data = %@, response=%@ error=%@", data.description, response.description, error.description );
+        dispatch_async(dispatch_get_main_queue(), ^{
+                   });
+
         if(error !=nil){
             callBackFromVC(false,  @{@"error": SERVER_ERROR});
         }else {
