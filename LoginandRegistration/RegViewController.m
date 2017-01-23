@@ -33,6 +33,10 @@
     NSString * userName=self.regUserNameTextField.text;
     NSString *password=self.regPasswordTextField.text;
     NSString *confirmPassword=self.regConfirmPasswordTextField.text;
+    
+    [[self regUserNameTextField] resignFirstResponder]; // remove keyboard once registration is pressed
+    [[self regPasswordTextField] resignFirstResponder];
+    [[self regConfirmPasswordTextField] resignFirstResponder];
 
     if([password isEqualToString:confirmPassword]){
         [_userServices registerByEmail:userName andPassword:password andCallBackMethod:^(BOOL success, NSDictionary *data){
@@ -46,6 +50,8 @@
             }
 
         }];
+    }else{
+        [ViewControllerUtils showAlertPopup:@"Failed" andMessage:@"Password not Matched" forViewController:self];
     }
 
 

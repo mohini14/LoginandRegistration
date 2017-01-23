@@ -36,8 +36,9 @@
     
     NSString *username=self.loginUserNameTextField.text;
     NSString *password=self.loginPasswordTextField.text;
-
-
+    [[self loginUserNameTextField] resignFirstResponder]; // remove keyboard once login pressed
+    [[self loginPasswordTextField] resignFirstResponder];
+    
     [_userServices loginByEmail:username andPassowrd:password andCallBackMethod:^(BOOL success, NSDictionary *data) {
 
         if(success == TRUE){

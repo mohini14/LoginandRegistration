@@ -26,12 +26,17 @@
     NSMutableURLRequest * urlRequest = [NSMutableURLRequest requestWithURL:nsUrl];
     NSURLSessionConfiguration * defaultSessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration: defaultSessionConfiguration];
-    [urlRequest setHTTPMethod:@"POST"];  // set http verb
     NSData *nsPostData = [NSJSONSerialization dataWithJSONObject:postData options:0 error:nil];  // convert dict to json
+    
+    [urlRequest setHTTPMethod:@"POST"];  // set http verb
     [urlRequest setHTTPBody:nsPostData];
+    [urlRequest setValue:@"application/json;charset=UTF-8" forHTTPHeaderField:@"content-type"];
 
     NSURLSessionDataTask *dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler: ^(NSData *data, NSURLResponse *response, NSError *error){
-        completionHandlerCallBack(data, response, error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionHandlerCallBack(data, response, error);
+        });
+    
     }];
 
     [dataTask resume];
